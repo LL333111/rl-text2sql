@@ -96,6 +96,7 @@ def main() -> None:
         tcfg["max_steps"] = args.max_steps
     else:
         budget_hours = load_budget()["gpu_hours_per_run"]
+        tcfg["save_strategy"] = "no"   # checkpoints follow the GPU-time schedule instead
 
     train = data.load_split("train")
     if args.limit:
@@ -109,7 +110,7 @@ def main() -> None:
     ).shuffle(seed=base["seed"])
 
     tokenizer = AutoTokenizer.from_pretrained(base["model"])
-    model = AutoModelForCausalLM.from_pretrained(base["model"], torch_dtype=torch.bfloat16)
+    model = AutoModelForCausalLM.from_pretrained(base["model"], dtype=torch.bfloat16)
 
     config = GRPOConfig(output_dir=str(out), seed=base["seed"], report_to="none",
                         save_total_limit=None, **tcfg)

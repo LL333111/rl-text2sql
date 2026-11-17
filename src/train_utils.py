@@ -54,16 +54,23 @@ def lora_b_norm(model) -> float:
     return total ** 0.5
 
 
+# Checkpoints are saved at these fractions of the GPU-time budget, identically
+# for both arms, so that val score can be compared at equal GPU time. The
+# schedule is denser early because SFT converges within the first few percent.
+CHECKPOINT_FRACTIONS = (0.02, 0.05, 0.10, 0.20, 0.30, 0.40, 0.50, 0.60, 0.70, 0.80, 0.90, 1.00)
+
+
 def make_budget_callback(out_dir: Path, budget_hours: float | None):
     """Stop training once `budget_hours` of training wall-clock time is used,
-    and record elapsed time at every log and checkpoint so that val score can
-    later be plotted against GPU time."""
+    save a checkpoint at each CHECKPOINT_FRACTIONS of the budget, and record
+    elapsed time at every log and checkpoint."""
     from transformers import TrainerCallback
 
     class BudgetCallback(TrainerCallback):
         def __init__(self):
             self.t0 = None
             self.log_path = out_dir / "time_log.jsonl"
+            self.pending = [f * budget_hours * 3600 for f in CHECKPOINT_FRACTIONS] if budget_hours else []
 
         def _elapsed(self):
             return time.time() - self.t0
@@ -77,6 +84,10 @@ def make_budget_callback(out_dir: Path, budget_hours: float | None):
             self.t0 = time.time()
 
         def on_step_end(self, args, state, control, **kw):
+            if self.pending and self._elapsed() >= self.pending[0]:
+                while self.pending and self._elapsed() >= self.pending[0]:
+                    self.pending.pop(0)
+                control.should_save = True
             if budget_hours is not None and self._elapsed() >= budget_hours * 3600:
                 control.should_save = True
                 control.should_training_stop = True

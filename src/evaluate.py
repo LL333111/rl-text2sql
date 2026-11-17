@@ -33,18 +33,29 @@ from src import data
 from src.rewards import Scorer
 
 
+_LLM = {}
+
+
 def generate_vllm(messages_list: list[list[dict]], model: str, adapter: str | None,
                   max_new_tokens: int, temperature: float, max_model_len: int) -> list[dict]:
-    """Generate one completion per conversation. Imported lazily: vLLM is Linux/GPU only."""
+    """Generate one completion per conversation. Imported lazily: vLLM is Linux/GPU only.
+
+    The engine is created once per process and reused, so many LoRA adapters
+    can be evaluated without reloading the base model.
+    """
     from vllm import LLM, SamplingParams
 
-    kwargs = dict(model=model, max_model_len=max_model_len, seed=0)
+    if "llm" not in _LLM:
+        _LLM["llm"] = LLM(model=model, max_model_len=max_model_len, seed=0,
+                          enable_lora=True, max_lora_rank=64, max_loras=1)
+        _LLM["model"], _LLM["n"] = model, 0
+    assert _LLM["model"] == model
+    llm = _LLM["llm"]
     lora_request = None
     if adapter:
         from vllm.lora.request import LoRARequest
-        kwargs.update(enable_lora=True, max_lora_rank=64)
-        lora_request = LoRARequest("adapter", 1, adapter)
-    llm = LLM(**kwargs)
+        _LLM["n"] += 1
+        lora_request = LoRARequest(f"adapter{_LLM['n']}", _LLM["n"], adapter)
     params = SamplingParams(temperature=temperature, max_tokens=max_new_tokens)
     outputs = llm.chat(messages_list, params, lora_request=lora_request)
     return [
@@ -77,9 +88,11 @@ def compute_metrics(records: list[dict]) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", required=True, choices=["train", "val", "test_a", "test_b"])
-    ap.add_argument("--out", required=True)
+    ap.add_argument("--out", help="output directory (single evaluation)")
     ap.add_argument("--model")
     ap.add_argument("--adapter", help="path to a LoRA adapter directory")
+    ap.add_argument("--checkpoints-of", help="evaluate every checkpoint-*/ of this training run "
+                    "in one process; writes <run>/eval_<split>/<checkpoint>/")
     ap.add_argument("--gold-as-pred", action="store_true", help="G0: use the gold SQL as the prediction")
     ap.add_argument("--allow-test", action="store_true", help="Stage 4 only")
     ap.add_argument("--limit", type=int, help="debugging: evaluate the first N questions")
@@ -88,7 +101,23 @@ def main() -> None:
     args = ap.parse_args()
     if not args.gold_as_pred and not args.model:
         ap.error("--model is required unless --gold-as-pred is given")
+    if args.checkpoints_of:
+        run = Path(args.checkpoints_of)
+        ckpts = sorted(run.glob("checkpoint-*"), key=lambda p: int(p.name.split("-")[1]))
+        for c in ckpts:
+            out = run / f"eval_{args.split}" / c.name
+            if (out / "metrics.json").exists():
+                continue
+            args.adapter, args.out = str(c), str(out)
+            print(f"=== {c}")
+            run_one(args)
+        return
+    if not args.out:
+        ap.error("--out is required")
+    run_one(args)
 
+
+def run_one(args) -> None:
     cfg = data.load_prompt_config()
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
