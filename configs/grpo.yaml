@@ -8,8 +8,8 @@ trainer:                  # passed straight to trl.GRPOConfig
   max_completion_length: 256
   temperature: 1.0
   learning_rate: 2.0e-5
-  per_device_train_batch_size: 8    # completions per device step = 1 prompt x 8 generations
-  gradient_accumulation_steps: 8    # 8 prompts (64 rollouts) per optimizer step
+  per_device_train_batch_size: 4    # half a rollout group per device step (memory: see scripts/mem_test.py)
+  gradient_accumulation_steps: 16   # 8 prompts (64 rollouts) per optimizer step
   lr_scheduler_type: constant_with_warmup
   warmup_steps: 10
   max_grad_norm: 1.0

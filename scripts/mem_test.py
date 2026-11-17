@@ -1,6 +1,6 @@
 """Worst-case GPU memory check for training.
 
-Builds one device batch from the 8 longest training prompts that pass the
+Builds one device batch from the 4 longest training prompts that pass the
 shared length cap, pads each with a maximum-length completion (256 tokens),
 and runs a forward + backward pass through the LoRA model. If this fits, no
 batch in either arm can run out of memory. Also reports how many training
@@ -30,7 +30,7 @@ kept = sorted(n for n in lens if n <= cap)
 print(f"train questions: {len(lens)}; dropped by {cap}-token cap: {len(lens) - len(kept)}; "
       f"median {kept[len(kept) // 2]}, p99 {kept[int(len(kept) * .99)]}, max kept {kept[-1]}, max overall {max(lens)}")
 
-B, L = 8, kept[-1] + 256
+B, L = 4, kept[-1] + 256
 model = get_peft_model(AutoModelForCausalLM.from_pretrained(base["model"], dtype=torch.bfloat16),
                        make_lora_config()).cuda()
 x = torch.randint(1000, 20000, (B, L), device="cuda")
