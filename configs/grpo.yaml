@@ -1,4 +1,4 @@
-# GRPO starting configuration (plan 5.6). Row 3 of the main table.
+# GRPO starting configuration. Row 3 of the main table.
 # Starts from the base model, not from the SFT checkpoint.
 reward: binary            # binary | partial  (grpo_partial.yaml overrides this for the ablation)
 trainer:                  # passed straight to trl.GRPOConfig

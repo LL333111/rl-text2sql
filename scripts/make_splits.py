@@ -1,7 +1,7 @@
 """Hold out val by database and freeze data/splits.json.
 
   train  Spider train minus the val databases, minus questions whose gold SQL
-         fails to execute or returns an empty result (plan 5.5: an empty gold
+         fails to execute or returns an empty result (an empty gold
          result would score any query that returns nothing as correct).
   val    ~10 databases (~500 questions) held out by database. Nothing is
          dropped from val except questions whose gold SQL fails to execute,

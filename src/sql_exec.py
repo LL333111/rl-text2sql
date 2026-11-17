@@ -1,6 +1,6 @@
 """Sandboxed, read-only SQLite execution.
 
-Safety layers (plan section 5.5, rule 5):
+Safety layers:
   1. Generated SQL only ever runs against a *copy* of the database.
   2. The copy is opened with ``file:<path>?mode=ro`` (``uri=True``).
   3. An authorizer allows SELECT/READ/FUNCTION only; ATTACH, PRAGMA, any

@@ -1,4 +1,4 @@
-# SFT baseline (plan Stage 2). Row 2 of the main table.
+# SFT baseline. Row 2 of the main table.
 # Loss is computed on the SQL output tokens only.
 trainer:                  # passed straight to transformers.TrainingArguments
   learning_rate: 1.0e-4

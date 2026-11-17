@@ -1,0 +1,23 @@
+{
+ "n": 1534,
+ "exec_acc": 0.29595827900912647,
+ "executable_rate": 0.6434159061277706,
+ "mean_output_tokens": 46.250977835723596,
+ "n_truncated": 6,
+ "error_types": {
+  "syntax": 80,
+  "no_such_column": 393,
+  "no_such_table": 11,
+  "no_such_function": 29,
+  "other": 5,
+  "ambiguous_column": 9,
+  "too_many_rows": 1,
+  "aggregate_misuse": 15,
+  "timeout": 4
+ },
+ "n_gold_failed": 1,
+ "gold_failed_ids": [
+  "bird_dev_701"
+ ],
+ "exec_acc_excl_gold_failed": 0.29615133724722764
+}

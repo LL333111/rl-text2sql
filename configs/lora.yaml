@@ -1,4 +1,4 @@
-# One LoRA configuration shared by the SFT and GRPO arms (plan 5.3).
+# One LoRA configuration shared by the SFT and GRPO arms.
 model: Qwen/Qwen2.5-Coder-1.5B-Instruct
 lora:
   r: 16

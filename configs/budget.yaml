@@ -1,8 +1,8 @@
-# Shared GPU budget for the SFT and GRPO arms (plan rule 3). Fixed after the
+# Shared GPU budget for the SFT and GRPO arms. Fixed after the
 # Stage 1 timing test and not changed afterwards.
 gpu_type: NVIDIA A40 (48 GB), Runpod Secure Cloud, 1 GPU
 gpu_hours_per_run: 3.0        # training wall-clock per run; evaluation is not counted
-n_hparam_configs: 2           # per arm (plan allows at most 4; both arms use the same number)
+n_hparam_configs: 2           # per arm (both arms use the same number)
 total_gpu_hour_ceiling: 60    # whole project, training + evaluation
 
 # Gate G3 (timing test, results/grpo_timing/run_metadata.json, 2026-11-17):

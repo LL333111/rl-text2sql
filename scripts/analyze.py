@@ -156,7 +156,7 @@ def main() -> None:
                 rows = read_jsonl(RES / run / "groups.jsonl")
                 x = list(range(1, len(rows) + 1))
                 axes[0].plot(x, smooth([r["mean_reward"] for r in rows]), color=colors.get(run), label=f"{run} reward")
-                axes[0].plot(x, smooth([r["acc"] for r in rows]), color=colors.get(run), ls="--", lw=1, label=f"{run} exact-match rate")
+                axes[0].plot(x, smooth([r["acc"] for r in rows]), color=colors.get(run), ls="--", lw=1, label=f"{run} execution-match rate")
                 axes[1].plot(x, smooth([r["frac_mixed"] for r in rows]), color=colors.get(run), label=f"{run} mixed")
                 axes[1].plot(x, smooth([r["frac_all_correct"] for r in rows]), color=colors.get(run), ls="--", lw=1, label=f"{run} all-correct")
                 axes[1].plot(x, smooth([r["frac_all_wrong"] for r in rows]), color=colors.get(run), ls=":", lw=1, label=f"{run} all-wrong")

@@ -1,4 +1,4 @@
-"""Paired statistics for comparing two rows on the same questions (plan 5.8)."""
+"""Paired statistics for comparing two rows on the same questions."""
 from __future__ import annotations
 
 import numpy as np

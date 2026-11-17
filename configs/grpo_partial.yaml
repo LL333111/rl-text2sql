@@ -1,3 +1,3 @@
-# Ablation (plan 5.4): identical to grpo.yaml except for the reward.
+# Ablation: identical to grpo.yaml except for the reward.
 inherit: grpo.yaml
 reward: partial

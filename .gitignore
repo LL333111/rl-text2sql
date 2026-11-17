@@ -15,3 +15,7 @@ data/cache/
 # Model checkpoints
 checkpoints/
 wandb/
+
+# Private planning notes, kept locally only
+PLAN.md
+RESUME_BULLETS.md

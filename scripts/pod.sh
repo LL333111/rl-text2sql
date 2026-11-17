@@ -15,7 +15,7 @@ ssh_pty() { timeout "${1}" ssh -tt -i "$POD_KEY" -o IdentitiesOnly=yes -o Server
 case "$1" in
   push)
     tmp=$(mktemp)
-    git archive --format=tar.gz -o "$tmp" HEAD -- . ':!results' ':!PLAN.md'
+    git archive --format=tar.gz -o "$tmp" HEAD -- . ':!results'
     sum=$(md5sum "$tmp" | cut -c1-32 | tr -d '\\')
     { echo "stty -echo; base64 -d > /workspace/code.tgz <<'EOF'"; base64 -w 76 "$tmp"; echo EOF
       echo "echo; echo SUM=\$(md5sum /workspace/code.tgz | cut -c1-32); cd $REPO && tar xzf /workspace/code.tgz && sed -i 's/\r\$//' scripts/*.sh && echo PUSH_OK; exit"
