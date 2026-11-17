@@ -1,0 +1,44 @@
+{
+ "split": "val",
+ "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+ "adapter": "results/sft_a/checkpoint-300",
+ "limit": null,
+ "prompt_config": {
+  "system": "You are a text-to-SQL assistant. Given a SQLite database schema and a question, write one SQLite query that answers the question. Output only the SQL query, with no explanation and no markdown.",
+  "user_template": "Database schema:\n{schema}\n\n{evidence_block}Question: {question}",
+  "evidence_template": "Evidence: {evidence}\n",
+  "decoding": {
+   "max_new_tokens": 256,
+   "temperature": 0.0
+  },
+  "execution": {
+   "timeout_s": 10,
+   "comparison": "set_equality"
+  }
+ },
+ "prompt_config_sha1": "2f1a831ba013b7564cd0e38e6bd766e6ec203a79",
+ "gold_cache": {
+  "executed": 0,
+  "cached": 506
+ },
+ "generation_seconds": 5.24,
+ "execution_seconds": 1.46,
+ "python": "3.12.3",
+ "sqlite": "3.45.1",
+ "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.39",
+ "argv": [
+  "/workspace/rl-text2sql/src/evaluate.py",
+  "--split",
+  "val",
+  "--model",
+  "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "--checkpoints-of",
+  "results/sft_a"
+ ],
+ "finished_at": "2026-11-17T09:52:15+0000",
+ "versions": {
+  "vllm": "0.34.0",
+  "torch": "2.14.0",
+  "transformers": "5.22.2"
+ }
+}
