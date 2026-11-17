@@ -22,6 +22,8 @@ def main() -> None:
     ap.add_argument("--config", default=str(CONFIGS / "sft.yaml"))
     ap.add_argument("--out", required=True)
     ap.add_argument("--max-steps", type=int)
+    ap.add_argument("--test-budget-hours", type=float,
+                    help="smoke test of the budget/checkpoint logic with a tiny budget (not a reported run)")
     ap.add_argument("--limit", type=int)
     ap.add_argument("--set", nargs="*", default=[], metavar="KEY=VALUE")
     args = ap.parse_args()
@@ -45,7 +47,7 @@ def main() -> None:
     if args.max_steps:
         tcfg["max_steps"] = args.max_steps
     else:
-        budget_hours = load_budget()["gpu_hours_per_run"]
+        budget_hours = args.test_budget_hours or load_budget()["gpu_hours_per_run"]
         tcfg["save_strategy"] = "no"   # checkpoints follow the GPU-time schedule instead
 
     train = data.load_split("train")
