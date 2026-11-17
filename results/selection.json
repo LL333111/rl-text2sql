@@ -34,6 +34,23 @@
     "val_acc": 0.7707509881422925,
     "val_executable": 0.9268774703557312
    }
+  },
+  "grpo_partial": {
+   "chosen_run": "grpo_partial",
+   "best": {
+    "checkpoint": "checkpoint-169",
+    "step": 169,
+    "gpu_hours": 1.508,
+    "val_acc": 0.7727272727272727,
+    "val_executable": 0.9486166007905138
+   },
+   "end": {
+    "checkpoint": "checkpoint-342",
+    "step": 342,
+    "gpu_hours": 3.003,
+    "val_acc": 0.766798418972332,
+    "val_executable": 0.9426877470355731
+   }
   }
  },
  "runs": {
@@ -447,6 +464,109 @@
     "gpu_hours": 3.002,
     "val_acc": 0.7707509881422925,
     "val_executable": 0.9268774703557312
+   }
+  },
+  "grpo_partial": {
+   "run": "grpo_partial",
+   "checkpoints": [
+    {
+     "checkpoint": "checkpoint-6",
+     "step": 6,
+     "gpu_hours": 0.063,
+     "val_acc": 0.6699604743083004,
+     "val_executable": 0.8280632411067194
+    },
+    {
+     "checkpoint": "checkpoint-16",
+     "step": 16,
+     "gpu_hours": 0.154,
+     "val_acc": 0.6778656126482213,
+     "val_executable": 0.8260869565217391
+    },
+    {
+     "checkpoint": "checkpoint-33",
+     "step": 33,
+     "gpu_hours": 0.305,
+     "val_acc": 0.7055335968379447,
+     "val_executable": 0.8853754940711462
+    },
+    {
+     "checkpoint": "checkpoint-64",
+     "step": 64,
+     "gpu_hours": 0.603,
+     "val_acc": 0.7252964426877471,
+     "val_executable": 0.9367588932806324
+    },
+    {
+     "checkpoint": "checkpoint-101",
+     "step": 101,
+     "gpu_hours": 0.915,
+     "val_acc": 0.7075098814229249,
+     "val_executable": 0.9209486166007905
+    },
+    {
+     "checkpoint": "checkpoint-135",
+     "step": 135,
+     "gpu_hours": 1.209,
+     "val_acc": 0.717391304347826,
+     "val_executable": 0.8952569169960475
+    },
+    {
+     "checkpoint": "checkpoint-169",
+     "step": 169,
+     "gpu_hours": 1.508,
+     "val_acc": 0.7727272727272727,
+     "val_executable": 0.9486166007905138
+    },
+    {
+     "checkpoint": "checkpoint-202",
+     "step": 202,
+     "gpu_hours": 1.813,
+     "val_acc": 0.7628458498023716,
+     "val_executable": 0.9446640316205533
+    },
+    {
+     "checkpoint": "checkpoint-237",
+     "step": 237,
+     "gpu_hours": 2.106,
+     "val_acc": 0.7509881422924901,
+     "val_executable": 0.9426877470355731
+    },
+    {
+     "checkpoint": "checkpoint-272",
+     "step": 272,
+     "gpu_hours": 2.41,
+     "val_acc": 0.7470355731225297,
+     "val_executable": 0.9387351778656127
+    },
+    {
+     "checkpoint": "checkpoint-307",
+     "step": 307,
+     "gpu_hours": 2.701,
+     "val_acc": 0.7628458498023716,
+     "val_executable": 0.932806324110672
+    },
+    {
+     "checkpoint": "checkpoint-342",
+     "step": 342,
+     "gpu_hours": 3.003,
+     "val_acc": 0.766798418972332,
+     "val_executable": 0.9426877470355731
+    }
+   ],
+   "best": {
+    "checkpoint": "checkpoint-169",
+    "step": 169,
+    "gpu_hours": 1.508,
+    "val_acc": 0.7727272727272727,
+    "val_executable": 0.9486166007905138
+   },
+   "end": {
+    "checkpoint": "checkpoint-342",
+    "step": 342,
+    "gpu_hours": 3.003,
+    "val_acc": 0.766798418972332,
+    "val_executable": 0.9426877470355731
    }
   }
  },
