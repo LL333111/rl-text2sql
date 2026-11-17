@@ -1,0 +1,17 @@
+{
+ "n": 506,
+ "exec_acc": 0.6956521739130435,
+ "executable_rate": 0.8537549407114624,
+ "mean_output_tokens": 22.23715415019763,
+ "n_truncated": 0,
+ "error_types": {
+  "no_such_column": 62,
+  "aggregate_misuse": 5,
+  "ambiguous_column": 5,
+  "other": 1,
+  "no_such_table": 1
+ },
+ "n_gold_failed": 0,
+ "gold_failed_ids": [],
+ "exec_acc_excl_gold_failed": 0.6956521739130435
+}
