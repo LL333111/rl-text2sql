@@ -24,7 +24,7 @@ from pathlib import Path
 from src import data
 from src.rewards import Scorer
 from src.train_utils import (CONFIGS, load_budget, load_config, lora_b_norm, make_budget_callback,
-                             make_lora_config, package_versions, write_json)
+                             make_lora_config, package_versions, parse_override, write_json)
 
 
 def make_reward_fn(scorer: Scorer, by_id: dict, out: Path, num_generations: int):
@@ -84,8 +84,8 @@ def main() -> None:
     base = load_config(CONFIGS / "lora.yaml")
     tcfg = dict(cfg["trainer"])
     for kv in args.set:
-        k, v = kv.split("=", 1)
-        tcfg[k] = yaml.safe_load(v)
+        k, v = parse_override(kv)
+        tcfg[k] = v
     prompt_cfg = data.load_prompt_config()
     if tcfg["max_completion_length"] != prompt_cfg["decoding"]["max_new_tokens"]:
         raise ValueError("max_completion_length must equal the frozen max_new_tokens")

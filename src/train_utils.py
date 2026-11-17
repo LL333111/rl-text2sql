@@ -29,6 +29,18 @@ def load_config(path: str | Path) -> dict:
     return cfg
 
 
+def parse_override(kv: str):
+    """Parse a KEY=VALUE override. YAML reads `1e-4` as a string, so numbers
+    are tried first."""
+    k, v = kv.split("=", 1)
+    for cast in (int, float):
+        try:
+            return k, cast(v)
+        except ValueError:
+            pass
+    return k, yaml.safe_load(v)
+
+
 def load_budget() -> dict:
     """Rule 3: both arms read the GPU budget from configs/budget.yaml."""
     p = CONFIGS / "budget.yaml"
