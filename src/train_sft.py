@@ -96,8 +96,24 @@ def main() -> None:
 
     targs = TrainingArguments(output_dir=str(out), seed=base["seed"], report_to="none",
                               save_total_limit=None, **tcfg)
-    trainer = Trainer(model=model, args=targs, train_dataset=DS(), data_collator=collate,
-                      callbacks=[make_budget_callback(out, budget_hours)])
+    class SQLOnlyTrainer(Trainer):
+        """Cross-entropy on the SQL tokens only. The vocabulary projection is
+        applied just to the positions that are scored: projecting the whole
+        prompt (thousands of schema tokens x 151k vocabulary) is what ran the
+        48 GB GPU out of memory, and those logits are never used."""
+
+        def compute_loss(self, model, inputs, return_outputs=False, **kwargs):
+            lm = model.get_base_model()
+            hidden = lm.model(input_ids=inputs["input_ids"],
+                              attention_mask=inputs["attention_mask"]).last_hidden_state
+            labels = inputs["labels"][:, 1:]
+            keep = labels != -100
+            logits = lm.lm_head(hidden[:, :-1][keep])
+            loss = torch.nn.functional.cross_entropy(logits.float(), labels[keep])
+            return (loss, {"logits": logits}) if return_outputs else loss
+
+    trainer = SQLOnlyTrainer(model=model, args=targs, train_dataset=DS(), data_collator=collate,
+                             callbacks=[make_budget_callback(out, budget_hours)])
     t0 = time.time()
     result = trainer.train()
     train_s = time.time() - t0
