@@ -1,0 +1,67 @@
+{
+ "kind": "grpo",
+ "config_file": "configs/grpo.yaml",
+ "reward": "binary",
+ "trainer": {
+  "num_generations": 8,
+  "beta": 0.0,
+  "loss_type": "grpo",
+  "max_completion_length": 256,
+  "temperature": 1.0,
+  "learning_rate": 2e-05,
+  "per_device_train_batch_size": 32,
+  "gradient_accumulation_steps": 2,
+  "lr_scheduler_type": "constant_with_warmup",
+  "warmup_steps": 10,
+  "max_grad_norm": 1.0,
+  "bf16": true,
+  "logging_steps": 5,
+  "save_steps": 50,
+  "num_train_epochs": 100,
+  "max_steps": 20
+ },
+ "lora": {
+  "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "lora": {
+   "r": 16,
+   "lora_alpha": 32,
+   "lora_dropout": 0.05,
+   "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+   ],
+   "bias": "none",
+   "task_type": "CAUSAL_LM"
+  },
+  "seed": 0
+ },
+ "n_train_questions": 6254,
+ "limit": null,
+ "budget_hours": null,
+ "max_steps": 20,
+ "optimizer_steps": 20,
+ "train_seconds": 747.3,
+ "seconds_per_step": 37.36,
+ "prompts_per_step": 8,
+ "trainable_params": 18464768,
+ "lora_B_norm_before": 0.0,
+ "lora_B_norm_after": 0.23892153514153483,
+ "lora_weights_changed": true,
+ "train_loss": -3.7252902984619143e-10,
+ "gpu": "NVIDIA A40",
+ "peak_gpu_mem_gb": 24.96,
+ "versions": {
+  "torch": "2.15.0",
+  "transformers": "5.23.0",
+  "peft": "0.21.3",
+  "trl": "1.18.0",
+  "datasets": "5.2.0",
+  "accelerate": "1.16.0"
+ },
+ "finished_at": "2026-11-17T06:09:51+0000"
+}

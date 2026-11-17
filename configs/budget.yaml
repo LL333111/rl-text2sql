@@ -6,11 +6,12 @@ n_hparam_configs: 2           # per arm (plan allows at most 4; both arms use th
 total_gpu_hour_ceiling: 60    # whole project, training + evaluation
 
 # Gate G3 (timing test, results/grpo_timing/run_metadata.json, 2026-11-17):
-#   20 optimizer steps in 747 s = 37.4 s/step, 8 questions x 8 rollouts per step,
-#   peak GPU memory 25 GB.
-#   3.0 h => ~290 steps => ~2,300 of the 6,254 training questions (0.37 epoch),
-#   ~18,500 scored rollouts.
+#   20 optimizer steps in 747 s = 37.4 s/step at 8 questions x 8 rollouts per step.
+#   A later pre-flight with the final memory-safe batch layout measured 33.7 s/step.
+#   3.0 h => ~300 optimizer steps => ~2,400 of the 6,090 training questions
+#   (0.4 epoch), ~19,000 scored rollouts.
+#   SFT at 3.9 s/step (16 questions) covers ~7 epochs in the same 3.0 h.
 #   Planned training: 2 SFT + 2 GRPO + 1 ablation = 5 runs x 3.0 h = 15 GPU-hours.
 # G3 passes: the projected GRPO time fits the budget by construction; the cost
-# is that GRPO sees about a third of the training questions once. This is
-# recorded as a limitation rather than fixed by subsetting.
+# is that GRPO sees under half of the training questions once. This is recorded
+# as a limitation rather than fixed by subsetting.
