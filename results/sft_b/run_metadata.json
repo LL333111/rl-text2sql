@@ -1,0 +1,62 @@
+{
+ "kind": "sft",
+ "config_file": "configs/sft.yaml",
+ "trainer": {
+  "learning_rate": 3e-05,
+  "per_device_train_batch_size": 4,
+  "gradient_accumulation_steps": 4,
+  "lr_scheduler_type": "constant_with_warmup",
+  "warmup_steps": 20,
+  "max_grad_norm": 1.0,
+  "bf16": true,
+  "logging_steps": 10,
+  "save_steps": 100,
+  "num_train_epochs": 100,
+  "save_strategy": "no"
+ },
+ "lora": {
+  "model": "Qwen/Qwen2.5-Coder-1.5B-Instruct",
+  "lora": {
+   "r": 16,
+   "lora_alpha": 32,
+   "lora_dropout": 0.05,
+   "target_modules": [
+    "q_proj",
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj",
+    "down_proj"
+   ],
+   "bias": "none",
+   "task_type": "CAUSAL_LM"
+  },
+  "seed": 0,
+  "max_prompt_tokens": 1536
+ },
+ "n_train_questions": 6090,
+ "n_skipped_too_long": 164,
+ "limit": null,
+ "budget_hours": 3.0,
+ "max_steps": null,
+ "optimizer_steps": 2998,
+ "train_seconds": 10804.0,
+ "seconds_per_step": 3.604,
+ "trainable_params": 18464768,
+ "lora_B_norm_before": 0.0,
+ "lora_B_norm_after": 6.322744938950613,
+ "lora_weights_changed": true,
+ "train_loss": 0.2217952985020778,
+ "gpu": "NVIDIA A40",
+ "peak_gpu_mem_gb": 31.08,
+ "versions": {
+  "torch": "2.15.0",
+  "transformers": "5.23.0",
+  "peft": "0.21.3",
+  "trl": "1.18.0",
+  "datasets": "5.2.0",
+  "accelerate": "1.16.0"
+ },
+ "finished_at": "2026-11-17T16:01:10+0000"
+}
