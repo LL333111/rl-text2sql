@@ -1,0 +1,38 @@
+{
+ "split": "train",
+ "model": "gold-as-pred",
+ "adapter": null,
+ "limit": null,
+ "prompt_config": {
+  "system": "You are a text-to-SQL assistant. Given a SQLite database schema and a question, write one SQLite query that answers the question. Output only the SQL query, with no explanation and no markdown.",
+  "user_template": "Database schema:\n{schema}\n\n{evidence_block}Question: {question}",
+  "evidence_template": "Evidence: {evidence}\n",
+  "decoding": {
+   "max_new_tokens": 256,
+   "temperature": 0.0
+  },
+  "execution": {
+   "timeout_s": 10,
+   "comparison": "set_equality"
+  }
+ },
+ "prompt_config_sha1": "2f1a831ba013b7564cd0e38e6bd766e6ec203a79",
+ "gold_cache": {
+  "executed": 0,
+  "cached": 6254
+ },
+ "generation_seconds": 0.0,
+ "execution_seconds": 3.96,
+ "python": "3.12.10",
+ "sqlite": "3.49.1",
+ "platform": "Windows-11-10.0.26300-SP0",
+ "argv": [
+  "src/evaluate.py",
+  "--split",
+  "train",
+  "--gold-as-pred",
+  "--out",
+  "results/g0_train"
+ ],
+ "finished_at": "2026-11-16T23:50:18-0500"
+}

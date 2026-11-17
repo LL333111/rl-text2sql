@@ -1,0 +1,21 @@
+# Prompt and decoding. FROZEN at the end of Stage 1 (plan 5.2, rule 2):
+# shared by every row of the main table and never changed in response to results.
+system: >-
+  You are a text-to-SQL assistant. Given a SQLite database schema and a
+  question, write one SQLite query that answers the question. Output only the
+  SQL query, with no explanation and no markdown.
+user_template: |-
+  Database schema:
+  {schema}
+
+  {evidence_block}Question: {question}
+# Used only when the example has a non-empty evidence field (BIRD).
+evidence_template: "Evidence: {evidence}\n"
+
+decoding:
+  max_new_tokens: 256
+  temperature: 0.0   # greedy for evaluation
+
+execution:
+  timeout_s: 10
+  comparison: set_equality   # set(pred_rows) == set(gold_rows), as in the BIRD evaluator

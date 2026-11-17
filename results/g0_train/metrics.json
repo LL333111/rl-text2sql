@@ -1,0 +1,11 @@
+{
+ "n": 6254,
+ "exec_acc": 1.0,
+ "executable_rate": 1.0,
+ "mean_output_tokens": null,
+ "n_truncated": 0,
+ "error_types": {},
+ "n_gold_failed": 0,
+ "gold_failed_ids": [],
+ "exec_acc_excl_gold_failed": 1.0
+}
