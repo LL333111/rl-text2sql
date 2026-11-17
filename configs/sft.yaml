@@ -1,0 +1,14 @@
+# SFT baseline (plan Stage 2). Row 2 of the main table.
+# Loss is computed on the SQL output tokens only.
+trainer:                  # passed straight to transformers.TrainingArguments
+  learning_rate: 1.0e-4
+  per_device_train_batch_size: 8
+  gradient_accumulation_steps: 2
+  lr_scheduler_type: constant_with_warmup
+  warmup_steps: 20
+  max_grad_norm: 1.0
+  bf16: true
+  logging_steps: 10
+  save_steps: 100
+  num_train_epochs: 100   # never reached: training stops on the GPU-time budget
+max_prompt_tokens: 4096

@@ -1,0 +1,19 @@
+# GRPO starting configuration (plan 5.6). Row 3 of the main table.
+# Starts from the base model, not from the SFT checkpoint.
+reward: binary            # binary | partial  (grpo_partial.yaml overrides this for the ablation)
+trainer:                  # passed straight to trl.GRPOConfig
+  num_generations: 8
+  beta: 0.0
+  loss_type: grpo         # explicit, so TRL does not fall back to its DAPO default
+  max_completion_length: 256
+  temperature: 1.0
+  learning_rate: 2.0e-5
+  per_device_train_batch_size: 32   # completions per device step = 4 prompts x 8 generations
+  gradient_accumulation_steps: 2    # 8 prompts per optimizer step
+  lr_scheduler_type: constant_with_warmup
+  warmup_steps: 10
+  max_grad_norm: 1.0
+  bf16: true
+  logging_steps: 5
+  save_steps: 50
+  num_train_epochs: 100   # never reached: training stops on the GPU-time budget
