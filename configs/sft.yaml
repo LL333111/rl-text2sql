@@ -11,4 +11,3 @@ trainer:                  # passed straight to transformers.TrainingArguments
   logging_steps: 10
   save_steps: 100
   num_train_epochs: 100   # never reached: training stops on the GPU-time budget
-max_prompt_tokens: 4096

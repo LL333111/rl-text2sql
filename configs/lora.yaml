@@ -8,3 +8,7 @@ lora:
   bias: none
   task_type: CAUSAL_LM
 seed: 0
+# Training questions whose prompt exceeds this many tokens are dropped from BOTH
+# arms (the count is recorded in run_metadata.json). Backpropagating through a
+# batch of the longest schemas needs more than the 48 GB available.
+max_prompt_tokens: 1536

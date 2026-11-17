@@ -103,6 +103,17 @@ def main() -> None:
     train = data.load_split("train")
     if args.limit:
         train = train[: args.limit]
+    tokenizer = AutoTokenizer.from_pretrained(base["model"])
+    kept = []
+    for e in train:  # same length filter as the SFT arm
+        ids = tokenizer.apply_chat_template(
+            data.build_messages(e, prompt_cfg), add_generation_prompt=True, tokenize=True)
+        if not isinstance(ids, list):
+            ids = ids["input_ids"]
+        if len(ids) <= base["max_prompt_tokens"]:
+            kept.append(e)
+    n_skipped = len(train) - len(kept)
+    train = kept
     by_id = {e["id"]: e for e in train}
     scorer = Scorer(mode=cfg["reward"], timeout_s=prompt_cfg["execution"]["timeout_s"],
                     log_path=out / "reward_log.jsonl")
@@ -111,7 +122,6 @@ def main() -> None:
         [{"prompt": data.build_messages(e, prompt_cfg), "ex_id": e["id"]} for e in train]
     ).shuffle(seed=base["seed"])
 
-    tokenizer = AutoTokenizer.from_pretrained(base["model"])
     model = AutoModelForCausalLM.from_pretrained(base["model"], dtype=torch.bfloat16)
 
     config = GRPOConfig(output_dir=str(out), seed=base["seed"], report_to="none",
@@ -143,7 +153,7 @@ def main() -> None:
                         // tcfg["num_generations"])
     write_json(out / "run_metadata.json", {
         "kind": "grpo", "config_file": args.config, "reward": cfg["reward"], "trainer": tcfg,
-        "lora": base, "n_train_questions": len(train), "limit": args.limit,
+        "lora": base, "n_train_questions": len(train), "n_skipped_too_long": n_skipped, "limit": args.limit,
         "budget_hours": budget_hours, "max_steps": args.max_steps,
         "optimizer_steps": steps, "train_seconds": round(train_s, 1),
         "seconds_per_step": round(train_s / max(1, steps), 2),

@@ -66,7 +66,7 @@ def main() -> None:
             data.build_messages(e, prompt_cfg), add_generation_prompt=True, tokenize=True)
         if not isinstance(prompt_ids, list):
             prompt_ids = prompt_ids["input_ids"]
-        if len(prompt_ids) > cfg["max_prompt_tokens"]:
+        if len(prompt_ids) > base["max_prompt_tokens"]:
             n_skipped += 1
             continue
         target_ids = tokenizer(e["gold_sql"].strip(), add_special_tokens=False)["input_ids"] + end_ids
