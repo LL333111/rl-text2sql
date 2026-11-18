@@ -28,9 +28,10 @@ test sets evaluated once.
 
 - **In distribution (Spider), GRPO matches SFT**: +0.7 points, 95% CI
   [−2.3, +3.8]. Both gain about 8 points over the untuned model.
-- **Out of distribution (BIRD), GRPO transfers and SFT does not**: GRPO is
-  +5.7 points over SFT (95% CI [+2.9, +8.9], McNemar p < 0.001), while SFT is
-  not significantly better than the untuned model.
+- **Out of distribution (BIRD), GRPO transfers and SFT does not**: +5.7
+  points over SFT (95% CI [+2.9, +8.9], McNemar p < 0.001) at
+  validation-selected checkpoints; +2.1 at the end of the budget. SFT is not
+  significantly better than the untuned model.
 - GRPO got there after seeing **under half of the training questions once**;
   SFT made about 8 passes over all of them.
 - A partial-credit reward (ablation) did not clearly beat the binary reward.
