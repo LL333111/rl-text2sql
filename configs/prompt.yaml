@@ -1,4 +1,4 @@
-# Prompt and decoding. FROZEN at the end of Stage 1 (plan 5.2, rule 2):
+# Prompt and decoding. FROZEN at the end of Stage 1:
 # shared by every row of the main table and never changed in response to results.
 system: >-
   You are a text-to-SQL assistant. Given a SQLite database schema and a

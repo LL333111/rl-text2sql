@@ -102,7 +102,8 @@ def load_split(split: str, allow_test: bool = False) -> list[dict]:
     """Load 'train', 'val', 'test_a' (Spider dev) or 'test_b' (BIRD dev).
 
     Test splits are refused unless allow_test=True; that flag is only passed in
-    Stage 4 (rule 1: do not read test-A or test-B before Stage 4).
+    Stage 4, after every choice is fixed (test-A and test-B are never read
+    before then).
     """
     if split in TEST_SPLITS:
         if not allow_test:

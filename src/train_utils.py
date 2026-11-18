@@ -42,7 +42,7 @@ def parse_override(kv: str):
 
 
 def load_budget() -> dict:
-    """Rule 3: both arms read the GPU budget from configs/budget.yaml."""
+    """Both arms read the same GPU budget from configs/budget.yaml."""
     p = CONFIGS / "budget.yaml"
     if not p.exists():
         raise FileNotFoundError(
